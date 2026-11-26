@@ -1,0 +1,256 @@
+/* ==========================================================================
+   Components: buttons, eyebrows, links, prose, cards, form
+   ========================================================================== */
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.eyebrow::before {
+  content: '';
+  width: 1.75rem;
+  height: 1px;
+  background: currentColor;
+}
+
+.eyebrow--light {
+  color: var(--brass-400);
+}
+
+/* ---------------------------------------------------------------- buttons */
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-4);
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 3rem;
+  padding: 0.75rem 1.6rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color var(--duration) var(--ease), color var(--duration) var(--ease),
+    border-color var(--duration) var(--ease), transform var(--duration) var(--ease);
+}
+
+.button:active {
+  transform: translateY(1px);
+}
+
+.button--primary {
+  background: var(--brass-400);
+  color: var(--navy-900);
+}
+
+.button--primary:hover {
+  background: #d8c096;
+}
+
+/* On light sections the primary button turns navy for contrast. */
+.section--stone .button--primary,
+.section--mist .button--primary {
+  background: var(--navy-900);
+  color: var(--stone-50);
+}
+
+.section--stone .button--primary:hover,
+.section--mist .button--primary:hover {
+  background: var(--navy-700);
+}
+
+.button--ghost-light {
+  border-color: rgb(232 238 242 / 0.4);
+  color: var(--stone-50);
+}
+
+.button--ghost-light:hover {
+  border-color: var(--stone-50);
+  background: rgb(232 238 242 / 0.08);
+}
+
+.button--outline-light {
+  border-color: rgb(201 173 127 / 0.6);
+  color: var(--stone-50);
+}
+
+.button--outline-light:hover {
+  border-color: var(--brass-400);
+  background: rgb(201 173 127 / 0.12);
+}
+
+.button--small {
+  min-height: 2.5rem;
+  padding: 0.5rem 1.15rem;
+}
+
+.button--block {
+  width: 100%;
+}
+
+.button[disabled] {
+  opacity: 0.7;
+  cursor: progress;
+}
+
+.text-link {
+  color: var(--navy-900);
+  text-decoration: underline;
+  text-decoration-color: var(--brass-500);
+  transition: text-decoration-color var(--duration) var(--ease);
+}
+
+.text-link:hover {
+  text-decoration-color: currentColor;
+}
+
+/* ------------------------------------------------------------------ prose */
+
+.prose > * + * {
+  margin-top: var(--space-5);
+}
+
+.prose p {
+  max-width: 38rem;
+}
+
+.prose--light {
+  color: var(--mist-200);
+}
+
+/* ------------------------------------------------------------------ form */
+
+.form-card {
+  padding: clamp(1.5rem, 4vw, 2.75rem);
+  background: var(--white);
+  border: 1px solid var(--stone-200);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+}
+
+.form-card__title {
+  font-size: var(--text-xl);
+  margin-bottom: var(--space-5);
+}
+
+.contact-form {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.field {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.field__label {
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.field__optional {
+  font-weight: 400;
+  color: var(--color-text-muted);
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  padding: 0.8rem 0.95rem;
+  background: var(--stone-50);
+  border: 1px solid #a7b3bf;
+  border-radius: var(--radius-sm);
+  font-size: 1rem;
+  line-height: 1.5;
+  transition: border-color var(--duration) var(--ease), background-color var(--duration) var(--ease);
+}
+
+.field textarea {
+  min-height: 9rem;
+  resize: vertical;
+}
+
+.field input:hover,
+.field textarea:hover {
+  border-color: var(--slate-500);
+}
+
+.field input:focus,
+.field textarea:focus {
+  background: var(--white);
+  border-color: var(--navy-700);
+}
+
+.field [aria-invalid='true'] {
+  border-color: var(--error);
+}
+
+.field__error {
+  font-size: var(--text-sm);
+  color: var(--error);
+}
+
+/* Honeypot: off-screen for people, still present for bots. */
+.hp {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.form-note {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.form-alert {
+  padding: var(--space-3) var(--space-4);
+  border-left: 3px solid var(--error);
+  background: #fbefed;
+  color: #7c241c;
+  font-size: var(--text-sm);
+}
+
+.form-alert a {
+  color: inherit;
+}
+
+.form-success {
+  padding: var(--space-5);
+  border-left: 3px solid var(--success);
+  background: #edf4f0;
+}
+
+.form-success:focus {
+  outline: none;
+}
+
+.form-success__title {
+  font-family: var(--font-serif);
+  font-size: var(--text-xl);
+  margin-bottom: var(--space-2);
+}
+
+[hidden] {
+  display: none !important;
+}
