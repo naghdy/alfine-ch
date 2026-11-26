@@ -14,11 +14,9 @@ export default {
   langName: 'English',
   langShort: 'EN',
 
-  // URL paths for each page in this language (must match de.mjs keys).
+  // The page for this language. Everything else is a section on it.
   paths: {
     home: '/',
-    impressum: '/impressum/',
-    privacy: '/privacy/',
   },
 
   ui: {
@@ -34,6 +32,10 @@ export default {
     backToHome: 'Back to the homepage',
     descriptor: 'A private, family-owned holding company in Zug, Switzerland.',
     rights: 'All rights reserved.',
+    backToTop: 'Back to top',
+    legalOpen: 'Read',
+    // Shown beside the scene: the funicular's height and the hour of the scene.
+    hudLabel: 'Zugerbergbahn',
   },
 
   nav: [
@@ -50,15 +52,6 @@ export default {
       description:
         'Alfine is a private, family-owned holding company in Zug, Switzerland, focused on property development and long-term investments.',
       ogImageAlt: 'The Alfine wordmark above layered mountain ridgelines.',
-    },
-    impressum: {
-      title: 'Impressum · Alfine',
-      description: 'Legal notice and company information for Alfine, Zug, Switzerland.',
-    },
-    privacy: {
-      title: 'Privacy policy · Alfine',
-      description:
-        'How Alfine handles personal data on this website: no cookies, no tracking and minimal data collection.',
     },
     notFound: {
       title: 'Page not found · Alfine',
@@ -119,6 +112,7 @@ export default {
     eyebrow: 'Our principles',
     heading: 'What guides us',
     intro: 'A few simple convictions shape how we work.',
+    mapCaption: 'The Zugerberg above Zug. Contour lines every 40 metres.',
     items: [
       { title: 'Long-term thinking', text: 'We measure success in decades and decide accordingly.' },
       { title: 'Discretion', text: 'We keep our affairs, and those of our partners, private.' },
@@ -165,8 +159,16 @@ export default {
       { label: 'Canton', value: 'Zug' },
       { label: 'Country', value: 'Switzerland' },
     ],
-    mapAlt: 'Stylised illustration of Lake Zug with the town of Zug marked on its northern shore.',
-    mapLake: 'Lake Zug',
+    // Names written onto the landscape as you scroll through this section.
+    labelsIntro: 'In the view from the lake:',
+    labels: {
+      zug: 'Zug',
+      zugerberg: 'Zugerberg',
+      funicular: 'Zugerbergbahn',
+      rigi: 'Rigi',
+      pilatus: 'Pilatus',
+      lake: 'Lake Zug',
+    },
   },
 
   contact: {
@@ -239,6 +241,7 @@ export default {
           body: [
             'All content on this website, including text, design and graphics, belongs to [LEGAL ENTITY NAME] unless stated otherwise. Any reproduction requires our prior written consent.',
             'The typefaces Fraunces and Inter are used under the SIL Open Font License.',
+            'The landscape is drawn from open elevation data: Terrain Tiles by Mapzen, distributed through the AWS Open Data programme. EU-DEM layers produced using Copernicus data and information funded by the European Union.',
           ],
         },
       ],

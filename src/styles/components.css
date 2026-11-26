@@ -1,12 +1,12 @@
 /* ==========================================================================
-   Components: buttons, eyebrows, links, prose, cards, form
+   Components: eyebrows, buttons, links, prose, form
    ========================================================================== */
 
 .eyebrow {
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  margin-bottom: var(--space-4);
+  margin-bottom: var(--space-5);
   font-size: var(--text-xs);
   font-weight: 600;
   letter-spacing: var(--tracking-eyebrow);
@@ -14,92 +14,106 @@
   color: var(--color-accent);
 }
 
-.eyebrow::before {
-  content: '';
-  width: 1.75rem;
-  height: 1px;
-  background: currentColor;
+.eyebrow__num {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.06em;
 }
 
-.eyebrow--light {
+.eyebrow__num::after {
+  content: '';
+  display: inline-block;
+  width: 2.5rem;
+  height: 1px;
+  margin: 0 0 0.3em var(--space-3);
+  vertical-align: middle;
+  background: currentColor;
+  opacity: 0.6;
+}
+
+.eyebrow--plain {
+  color: inherit;
+  opacity: 0.85;
+}
+
+.sheet--night .eyebrow,
+[data-ink='light'] .eyebrow {
   color: var(--brass-400);
+}
+
+[data-ink='light'] .eyebrow--plain {
+  color: inherit;
 }
 
 /* ---------------------------------------------------------------- buttons */
 
-.button-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-3) var(--space-4);
-}
-
 .button {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
   min-height: 3rem;
-  padding: 0.75rem 1.6rem;
+  padding: 0.8rem 1.65rem;
   border: 1px solid transparent;
-  border-radius: var(--radius-sm);
+  border-radius: 999px;
   font-size: var(--text-sm);
   font-weight: 500;
   letter-spacing: 0.02em;
   line-height: 1.2;
   text-decoration: none;
+  text-shadow: none;
   cursor: pointer;
-  transition: background-color var(--duration) var(--ease), color var(--duration) var(--ease),
-    border-color var(--duration) var(--ease), transform var(--duration) var(--ease);
+  overflow: hidden;
+  isolation: isolate;
+  transition: color var(--duration) var(--ease), border-color var(--duration) var(--ease),
+    background-color var(--duration) var(--ease);
 }
 
-.button:active {
-  transform: translateY(1px);
+/* A fill that rises from below on hover, like light coming up a slope. */
+.button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  transform: translateY(101%);
+  transition: transform 420ms var(--ease-out);
 }
 
-.button--primary {
+.button:hover::before {
+  transform: translateY(0);
+}
+
+.button--brass {
   background: var(--brass-400);
-  color: var(--navy-900);
+  color: var(--navy-950);
 }
 
-.button--primary:hover {
-  background: #d8c096;
+.button--brass::before {
+  background: var(--stone-50);
 }
 
-/* On light sections the primary button turns navy for contrast. */
-.section--stone .button--primary,
-.section--mist .button--primary {
+.button--line {
+  border-color: rgb(246 243 238 / 0.55);
+  color: var(--stone-50);
+}
+
+.button--line::before {
+  background: var(--stone-50);
+}
+
+.button--line:hover {
+  color: var(--navy-950);
+  border-color: var(--stone-50);
+}
+
+.button--ink {
   background: var(--navy-900);
   color: var(--stone-50);
 }
 
-.section--stone .button--primary:hover,
-.section--mist .button--primary:hover {
+.button--ink::before {
   background: var(--navy-700);
-}
-
-.button--ghost-light {
-  border-color: rgb(232 238 242 / 0.4);
-  color: var(--stone-50);
-}
-
-.button--ghost-light:hover {
-  border-color: var(--stone-50);
-  background: rgb(232 238 242 / 0.08);
-}
-
-.button--outline-light {
-  border-color: rgb(201 173 127 / 0.6);
-  color: var(--stone-50);
-}
-
-.button--outline-light:hover {
-  border-color: var(--brass-400);
-  background: rgb(201 173 127 / 0.12);
-}
-
-.button--small {
-  min-height: 2.5rem;
-  padding: 0.5rem 1.15rem;
 }
 
 .button--block {
@@ -112,7 +126,7 @@
 }
 
 .text-link {
-  color: var(--navy-900);
+  color: inherit;
   text-decoration: underline;
   text-decoration-color: var(--brass-500);
   transition: text-decoration-color var(--duration) var(--ease);
@@ -132,18 +146,13 @@
   max-width: 38rem;
 }
 
-.prose--light {
-  color: var(--mist-200);
-}
-
 /* ------------------------------------------------------------------ form */
 
 .form-card {
   padding: clamp(1.5rem, 4vw, 2.75rem);
   background: var(--white);
-  border: 1px solid var(--stone-200);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-card);
+  border-radius: 6px;
+  box-shadow: 0 1px 2px rgb(15 30 46 / 0.05), 0 30px 60px -40px rgb(15 30 46 / 0.45);
 }
 
 .form-card__title {
@@ -178,14 +187,14 @@
   padding: 0.8rem 0.95rem;
   background: var(--stone-50);
   border: 1px solid #a7b3bf;
-  border-radius: var(--radius-sm);
+  border-radius: 4px;
   font-size: 1rem;
   line-height: 1.5;
   transition: border-color var(--duration) var(--ease), background-color var(--duration) var(--ease);
 }
 
 .field textarea {
-  min-height: 9rem;
+  min-height: 8rem;
   resize: vertical;
 }
 

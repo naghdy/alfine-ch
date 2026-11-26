@@ -108,11 +108,13 @@ export function layout(ctx, { body, bodyClass = '', indexable = true }) {
     <script src="${assets.js}" defer></script>
   </head>
   <body class="${bodyClass}">
+    <div class="backdrop" aria-hidden="true"></div>
     ${header(ctx)}
     <main id="main" tabindex="-1">
 ${body}
     </main>
     ${footer(ctx)}
+    <p class="hud" aria-hidden="true" data-hud><span class="hud__label">${esc(t.ui.hudLabel)}</span> <span data-hud-alt>561 m</span> <span class="hud__sep"></span> <span data-hud-time>05:18</span></p>
   </body>
 </html>
 `;

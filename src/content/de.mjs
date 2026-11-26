@@ -15,10 +15,9 @@ export default {
   langName: 'Deutsch',
   langShort: 'DE',
 
+  // Die Seite in dieser Sprache. Alles andere sind Abschnitte darauf.
   paths: {
     home: '/de/',
-    impressum: '/de/impressum/',
-    privacy: '/de/datenschutz/',
   },
 
   ui: {
@@ -34,6 +33,10 @@ export default {
     backToHome: 'Zurück zur Startseite',
     descriptor: 'Eine private Holdinggesellschaft in Familienbesitz in Zug, Schweiz.',
     rights: 'Alle Rechte vorbehalten.',
+    backToTop: 'Nach oben',
+    legalOpen: 'Lesen',
+    // Neben der Szene: Höhe der Standseilbahn und Tageszeit der Szene.
+    hudLabel: 'Zugerbergbahn',
   },
 
   nav: [
@@ -50,15 +53,6 @@ export default {
       description:
         'Alfine ist eine private Holdinggesellschaft in Familienbesitz mit Sitz in Zug, Schweiz. Schwerpunkte sind Immobilienentwicklung und langfristige Investitionen.',
       ogImageAlt: 'Die Wortmarke Alfine über geschichteten Bergkämmen.',
-    },
-    impressum: {
-      title: 'Impressum · Alfine',
-      description: 'Impressum und Unternehmensangaben der Alfine, Zug, Schweiz.',
-    },
-    privacy: {
-      title: 'Datenschutzerklärung · Alfine',
-      description:
-        'Wie Alfine auf dieser Website mit Personendaten umgeht: keine Cookies, kein Tracking und so wenige Daten wie möglich.',
     },
     notFound: {
       title: 'Seite nicht gefunden · Alfine',
@@ -118,6 +112,7 @@ export default {
     eyebrow: 'Unsere Grundsätze',
     heading: 'Was uns leitet',
     intro: 'Einige einfache Überzeugungen prägen unsere Arbeit.',
+    mapCaption: 'Der Zugerberg über Zug. Höhenlinien alle 40 Meter.',
     items: [
       { title: 'Langfristiges Denken', text: 'Wir messen Erfolg in Jahrzehnten und entscheiden entsprechend.' },
       { title: 'Diskretion', text: 'Unsere Angelegenheiten und jene unserer Partner behandeln wir vertraulich.' },
@@ -164,8 +159,16 @@ export default {
       { label: 'Kanton', value: 'Zug' },
       { label: 'Land', value: 'Schweiz' },
     ],
-    mapAlt: 'Stilisierte Darstellung des Zugersees mit der Stadt Zug am nördlichen Ufer.',
-    mapLake: 'Zugersee',
+    // Namen, die beim Scrollen durch diesen Abschnitt in die Landschaft geschrieben werden.
+    labelsIntro: 'Im Blick vom See:',
+    labels: {
+      zug: 'Zug',
+      zugerberg: 'Zugerberg',
+      funicular: 'Zugerbergbahn',
+      rigi: 'Rigi',
+      pilatus: 'Pilatus',
+      lake: 'Zugersee',
+    },
   },
 
   contact: {
@@ -238,6 +241,7 @@ export default {
           body: [
             'Sämtliche Inhalte dieser Website, einschliesslich Texte, Gestaltung und Grafiken, gehören der [LEGAL ENTITY NAME], sofern nicht anders angegeben. Jede Vervielfältigung bedarf unserer vorgängigen schriftlichen Zustimmung.',
             'Die Schriften Fraunces und Inter werden unter der SIL Open Font License verwendet.',
+            'Die Landschaft beruht auf offenen Höhendaten: Terrain Tiles von Mapzen, bereitgestellt über das AWS Open Data Programm. EU-DEM layers produced using Copernicus data and information funded by the European Union.',
           ],
         },
       ],

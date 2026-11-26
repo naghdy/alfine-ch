@@ -17,7 +17,8 @@ import { fileURLToPath } from 'node:url';
 import site from '../src/content/site.mjs';
 import en from '../src/content/en.mjs';
 import de from '../src/content/de.mjs';
-import { homePage, legalPage, notFoundPage } from '../src/templates/pages.mjs';
+import { homePage, notFoundPage } from '../src/templates/pages.mjs';
+import { sceneData, staticBackdropSvg } from '../src/templates/terrain.mjs';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
 const src = join(root, 'src');
@@ -26,7 +27,7 @@ const languages = [en, de];
 
 // Stylesheets and scripts are concatenated in this order into one file each.
 const styles = ['tokens.css', 'base.css', 'layout.css', 'components.css', 'sections.css'];
-const scripts = ['header.js', 'reveal.js', 'parallax.js', 'contact-form.js'];
+const scripts = ['header.js', 'reveal.js', 'details.js', 'contact-form.js', 'scene.js'];
 
 loadDotEnv(join(root, '.env'));
 
@@ -50,7 +51,7 @@ function write(relPath, content) {
 
 const hash = (content) => createHash('sha256').update(content).digest('hex').slice(0, 10);
 
-/** Write a page path such as /de/impressum/ as /de/impressum/index.html. */
+/** Write a page path such as /de/ as /de/index.html. */
 const pageFile = (path) => join(path, 'index.html');
 
 /* ------------------------------------------------------------ form config */
@@ -73,9 +74,10 @@ mkdirSync(out, { recursive: true });
 
 // Assets: CSS and JS bundles with a content hash for cache busting.
 const css = styles.map((f) => readFileSync(join(src, 'styles', f), 'utf8')).join('\n');
-const js = `'use strict';\n${scripts
-  .map((f) => `/* ${f} */\n(() => {\n${readFileSync(join(src, 'scripts', f), 'utf8')}\n})();`)
-  .join('\n\n')}\n`;
+// The scene script gets the terrain data inlined in place of __SCENE_DATA__.
+const script = (f) =>
+  readFileSync(join(src, 'scripts', f), 'utf8').replace('__SCENE_DATA__', () => JSON.stringify(sceneData));
+const js = `'use strict';\n${scripts.map((f) => `/* ${f} */\n(() => {\n${script(f)}\n})();`).join('\n\n')}\n`;
 write('assets/css/site.css', css);
 write('assets/js/site.js', js);
 const assets = { css: `/assets/css/site.css?v=${hash(css)}`, js: `/assets/js/site.js?v=${hash(js)}` };
@@ -84,24 +86,19 @@ const assets = { css: `/assets/css/site.css?v=${hash(css)}`, js: `/assets/js/sit
 cpSync(join(src, 'assets'), join(out, 'assets'), { recursive: true });
 cpSync(join(src, 'static'), out, { recursive: true });
 
-// Language-specific map illustration.
-const mapTemplate = readFileSync(join(src, 'svg', 'zug-map.svg'), 'utf8');
-for (const t of languages) {
-  write(`assets/images/zug-map-${t.lang}.svg`, mapTemplate.replace('{{lake}}', t.location.mapLake));
-}
+// Still drawing of the Zugerberg, shown until the live scene starts.
+write('assets/images/zugerberg.svg', staticBackdropSvg());
 
 // Pages.
 const form = formConfig();
 for (const t of languages) {
   const base = { t, site, languages, assets, form };
   write(pageFile(t.paths.home), homePage({ ...base, page: 'home' }));
-  write(pageFile(t.paths.impressum), legalPage({ ...base, page: 'impressum' }, 'impressum'));
-  write(pageFile(t.paths.privacy), legalPage({ ...base, page: 'privacy' }, 'privacy'));
 }
 write('404.html', notFoundPage({ t: en, site, languages, assets, form, page: 'notFound' }, de));
 
-// Sitemap with hreflang alternates for every page.
-const pages = ['home', 'impressum', 'privacy'];
+// Sitemap with hreflang alternates.
+const pages = ['home'];
 const urls = languages.flatMap((t) =>
   pages.map((p) => {
     const alts = languages
