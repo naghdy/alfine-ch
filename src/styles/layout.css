@@ -275,6 +275,13 @@ main,
   position: relative;
 }
 
+/* The soft text washes behind window copy reach past the screen edge. Clip
+   them sideways only: 'clip' keeps the sticky lines working, where 'hidden'
+   would not, and leaves the sheet edges free to rise above. */
+.act--window {
+  overflow-x: clip;
+}
+
 /* Windows: the scene shows through. Light text unless the scene is running
    and the window is set in daylight. */
 .act--window,
