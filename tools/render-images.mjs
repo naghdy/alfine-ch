@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /**
- * Renders the raster images from their SVG sources. Run it only when the
+ * Renders the raster images from their SVG sources (the social image is
+ * drawn from the terrain data). Run it only when the
  * artwork changes; the generated files are committed.
  *
  *   npm install --no-save puppeteer && node tools/render-images.mjs
@@ -42,8 +43,9 @@ async function render(svgMarkup, size, background = 'transparent') {
   return page.screenshot({ type: 'png', omitBackground: background === 'transparent' });
 }
 
-// Social image.
-writeFileSync(join(src, 'assets/images/og-image.png'), await render(read('svg/og-image.svg'), [1200, 630]));
+// Social image: the real Zugerberg skyline at dusk (src/templates/terrain.mjs).
+const { ogImageSvg } = await import('../src/templates/terrain.mjs');
+writeFileSync(join(src, 'assets/images/og-image.png'), await render(ogImageSvg(read('svg/wordmark.svg')), [1200, 630]));
 
 // App icons from the square favicon artwork.
 const icon = read('assets/icons/icon.svg');
