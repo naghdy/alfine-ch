@@ -35,8 +35,8 @@ export default {
     rights: 'Alle Rechte vorbehalten.',
     backToTop: 'Nach oben',
     legalOpen: 'Lesen',
-    // Neben der Szene: Höhe der Standseilbahn und Tageszeit der Szene.
-    hudLabel: 'Zugerbergbahn',
+    // Neben der Szene: Blickrichtung und Tageszeit der Szene.
+    hudLabel: 'Blick',
   },
 
   nav: [
@@ -160,12 +160,11 @@ export default {
       { label: 'Land', value: 'Schweiz' },
     ],
     // Namen, die beim Scrollen durch diesen Abschnitt in die Landschaft geschrieben werden.
-    labelsIntro: 'Im Blick vom See:',
+    labelsIntro: 'Im Blick über den See nach Süden:',
     labels: {
-      zug: 'Zug',
       zugerberg: 'Zugerberg',
-      funicular: 'Zugerbergbahn',
       rigi: 'Rigi',
+      alps: 'Eiger, Mönch, Jungfrau',
       pilatus: 'Pilatus',
       lake: 'Zugersee',
     },

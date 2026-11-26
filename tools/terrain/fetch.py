@@ -29,7 +29,9 @@ def tiles(z, lat0, lat1, lon0, lon1):
 
 if __name__ == "__main__":
     os.makedirs(TILES, exist_ok=True)
-    jobs = list(tiles(12, 47.0, 47.30, 8.30, 8.75)) + list(tiles(10, 46.5, 47.7, 7.6, 9.4))
+    # Zoom 12 from the Zugerberg south to Pilatus; zoom 10 out to the Bernese
+    # and Glarus Alps.
+    jobs = list(tiles(12, 46.85, 47.30, 8.15, 8.75)) + list(tiles(10, 46.3, 47.7, 7.5, 9.4))
     for z, x, y in jobs:
         path = os.path.join(TILES, f"{z}_{x}_{y}.png")
         if not os.path.exists(path):

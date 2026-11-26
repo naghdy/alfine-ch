@@ -20,7 +20,7 @@
   position: fixed;
   inset: 0;
   z-index: 0;
-  background: var(--night) url('/assets/images/zugerberg.svg') center bottom / cover no-repeat;
+  background: var(--night) url('/assets/images/view-south.svg') center bottom / cover no-repeat;
 }
 
 .scene-on .backdrop {
@@ -288,7 +288,7 @@ main,
   text-shadow: 0 0 30px rgb(255 255 255 / 0.6);
 }
 
-/* Sheets: paper panels; the top edge is the Zugerberg's outline. */
+/* Sheets: paper panels; the top edge is the outline of the range. */
 .act--sheet {
   margin-top: var(--edge);
   background: var(--paper);
@@ -464,7 +464,7 @@ main,
 
 /* ------------------------------------------------------------------ HUD */
 
-/* The funicular's height and the scene's hour, in the corner. Difference
+/* The bearing of the view and the scene's hour, in the corner. Difference
    blending keeps it legible over sky, paper and night alike. */
 .hud {
   position: fixed;

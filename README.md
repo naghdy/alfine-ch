@@ -7,7 +7,7 @@ A fully static, bilingual (English and German) single page with no runtime depen
 - English: `/`  German: `/de/`
 - Everything is on that one page. The Impressum and Privacy policy sit at the foot as expandable sections, reachable directly at `/#impressum` and `/#privacy` (`/de/#impressum`, `/de/#privacy`).
 
-Behind the page, a canvas draws the real view of the Zugerberg from Lake Zug. As you scroll, the day passes from dawn to night, the Zugerbergbahn climbs the slope and the lake mirrors it all. See [docs/DESIGN.md](docs/DESIGN.md).
+Behind the page, a canvas draws the real view south from Zug's lakefront: the Zugerberg, the Rigi, the Bernese Alps and Pilatus across the lake. As you scroll, the day passes from dawn to night, the sun sets beside Pilatus, a steamer crosses the lake and the water mirrors it all. See [docs/DESIGN.md](docs/DESIGN.md).
 
 ## Run it locally
 
@@ -49,7 +49,7 @@ src/
   styles/       CSS: tokens (design variables), base, layout, components, sections
   scripts/      browser JS: the scene (scene.js), header and menu, reveals,
                 contour drawing and legal sections (details.js), contact form
-  data/         zugerberg.json: the skyline, generated from terrain data
+  data/         skyline.json: the view south, generated from terrain data
   svg/          wordmark, mark, contour map (generated)
   assets/       self-hosted fonts (OFL), icons, images (copied as-is)
   static/       files for the site root: CNAME, .nojekyll, favicon.ico
@@ -122,7 +122,7 @@ Run `npm run build`: when it no longer lists placeholders, the content is comple
 
 ## Changing the artwork
 
-The skyline (`src/data/zugerberg.json`) and the contour map (`src/svg/contours.svg`) are generated from elevation data by the scripts in `tools/terrain/`; both outputs are committed, so the build never needs Python or the network. The wordmark and mark are SVG files in `src/svg/`. The PNG icons, `favicon.ico` and the Open Graph image (drawn from the same skyline) are generated and committed. After changing `src/assets/icons/icon.svg`, the wordmark or the skyline, regenerate them:
+The skyline (`src/data/skyline.json`) and the contour map (`src/svg/contours.svg`) are generated from elevation data by the scripts in `tools/terrain/`; both outputs are committed, so the build never needs Python or the network. The wordmark and mark are SVG files in `src/svg/`. The PNG icons, `favicon.ico` and the Open Graph image (drawn from the same skyline) are generated and committed. After changing `src/assets/icons/icon.svg`, the wordmark or the skyline, regenerate them:
 
 ```sh
 npm install --no-save puppeteer

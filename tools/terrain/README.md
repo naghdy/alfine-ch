@@ -3,10 +3,10 @@
 These scripts turn open elevation data into the two pieces of artwork the
 site draws from:
 
-- `src/data/zugerberg.json`: the skyline seen from Lake Zug, in five layers,
-  with the funicular track and a few landmarks. The build inlines it into the
-  scene script, and the paper panels' top edge and the social image are drawn
-  from it too.
+- `src/data/skyline.json`: the view south from Zug's lakefront, in five
+  layers, with the summits that get labels and the distance to the far shore.
+  The build inlines it into the scene script, and the paper panels' top edge,
+  the still backdrop and the social image are drawn from it too.
 - `src/svg/contours.svg`: the contour map of the Zugerberg in the Principles
   section (40 m interval, shore line included).
 
@@ -19,25 +19,25 @@ Python 3 with NumPy and Pillow.
 
 ```sh
 python3 tools/terrain/fetch.py       # downloads the tiles into tools/terrain/.tiles (git-ignored)
-python3 tools/terrain/panorama.py    # writes src/data/zugerberg.json
+python3 tools/terrain/panorama.py    # writes src/data/skyline.json
 python3 tools/terrain/contours.py    # writes src/svg/contours.svg
 node tools/build.mjs
 ```
 
 ## How it works
 
-- `fetch.py` downloads Terrarium-encoded elevation tiles (zoom 12 around the
-  lake, zoom 10 for the far Alps). Elevation in metres is
+- `fetch.py` downloads Terrarium-encoded elevation tiles (zoom 12 from the
+  Zugerberg south to Pilatus, zoom 10 out to the Bernese and Glarus Alps). Elevation in metres is
   `R * 256 + G + B / 256 - 32768`.
 - `dem.py` mosaics the tiles and samples elevation at any latitude and
   longitude, with bilinear interpolation.
-- `panorama.py` stands at 47.160 N, 8.488 E, 4 m above the lake, and casts a
-  ray every quarter degree from azimuth 40 to 235. Along each ray it keeps the
-  highest apparent elevation angle within each distance band (0 to 3 km, 3 to
-  5.6, 5.6 to 13, 13 to 32 and 32 to 90 km), allowing for the Earth's
-  curvature and atmospheric refraction (k = 0.13). The Zugerbergbahn's track
-  is a straight line through its midpoint, with its bearing fitted so that the
-  ends match the station heights.
+- `panorama.py` stands on the lakefront by Zug's old town (47.1658 N,
+  8.5128 E), 2 m above the water, and casts a ray every tenth of a degree from
+  azimuth 140 to 270. Along each ray it keeps the highest apparent elevation
+  angle within each distance band (0 to 4 km, 4 to 10, 10 to 22, 22 to 45 and
+  45 to 130 km), allowing for the Earth's curvature and atmospheric refraction
+  (k = 0.13). From there the Rigi Kulm stands at 189 degrees, the Mönch at 210
+  and Pilatus at 224; the Titlis and Uri-Rotstock are hidden behind the Rigi.
 - `contours.py` samples a grid over the mountain, smooths it lightly, traces
   the contour lines with marching squares and simplifies them.
 

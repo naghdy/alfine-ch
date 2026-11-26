@@ -2,10 +2,10 @@
  * Page bodies: the single page (one per language) and the 404 page.
  *
  * The page alternates two kinds of "act":
- *  - windows (act--window): transparent, so the Zugerberg scene behind the
+ *  - windows (act--window): transparent, so the view south from Zug behind the
  *    page shows through, with one short line of text;
  *  - sheets (act--sheet): paper panels with the detailed copy, whose top edge
- *    is the Zugerberg's own outline.
+ *    is the outline of the range (Rigi, the Alps, Pilatus).
  * Every act carries data-hours: the hours of the day the scene moves through
  * while that act is in view.
  */
@@ -246,9 +246,9 @@ export function homePage(ctx) {
   const body = [
     hero(ctx),
     about(ctx),
-    interlude(pillarsLine, '8.2 9.8', 'dark'),
+    interlude(pillarsLine, '8.2 9.8', 'light'),
     work(ctx),
-    interlude(t.principles.items[0].text, '11.6 13.4', 'dark'),
+    interlude(t.principles.items[0].text, '11.6 13.4', 'light'),
     principles(ctx),
     trust(ctx),
     location(ctx),

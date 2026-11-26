@@ -86,8 +86,8 @@ const assets = { css: `/assets/css/site.css?v=${hash(css)}`, js: `/assets/js/sit
 cpSync(join(src, 'assets'), join(out, 'assets'), { recursive: true });
 cpSync(join(src, 'static'), out, { recursive: true });
 
-// Still drawing of the Zugerberg, shown until the live scene starts.
-write('assets/images/zugerberg.svg', staticBackdropSvg());
+// Still drawing of the view, shown until the live scene starts.
+write('assets/images/view-south.svg', staticBackdropSvg());
 
 // Pages.
 const form = formConfig();

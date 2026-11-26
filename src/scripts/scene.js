@@ -1,11 +1,12 @@
 /*
- * The Zugerberg scene: a fixed canvas behind the page.
+ * The view south from Zug: a fixed canvas behind the page.
  *
  * The skyline is the real one, computed from elevation data (see
- * tools/terrain/): the view from Lake Zug east to the Zugerberg, with the
- * Rossberg, the Rigi and the Alps behind. Scrolling moves the scene through
- * one day, from before dawn to night, and climbs the two counterbalanced cars
- * of the Zugerbergbahn from the valley station to the top.
+ * tools/terrain/): from the lakefront across Lake Zug, the Zugerberg's flank
+ * on the left, the Rigi, the Bernese Alps low on the horizon, and Pilatus on
+ * the right. Scrolling moves the scene through one day, from before dawn to
+ * night: the sun rises behind the Zugerberg and sets beside Pilatus, the view
+ * turns slowly west with it, and a lake steamer crosses the water.
  *
  * The page works without it: until this runs, a static drawing of the same
  * skyline sits behind the page.
@@ -61,21 +62,24 @@ function rng(seed) {
 
 // Key moments of the day. Colours are hex strings; numbers are 0 to 1.
 const KEYS = [
-  { h: 4.5, top: '#060c17', mid: '#0d1729', low: '#1b2840', haze: '#1b2a40', near: '#05090f', far: '#1a283d', lake: '#03070d', cloud: '#18243a', sun: '#ffd9a8', stars: 1, lights: 1, mist: 0.15, glow: 0, alpen: 0 },
-  { h: 5.6, top: '#0c1530', mid: '#2a3459', low: '#a57788', haze: '#4a4e6d', near: '#0a111e', far: '#485372', lake: '#080f1c', cloud: '#6c5c7c', sun: '#ffb38a', stars: 0.6, lights: 0.9, mist: 0.5, glow: 0.35, alpen: 0 },
-  { h: 6.6, top: '#2a4370', mid: '#7c85a8', low: '#f0b38e', haze: '#c39b97', near: '#18222f', far: '#858aa3', lake: '#1a2436', cloud: '#e6a990', sun: '#ffc690', stars: 0.08, lights: 0.45, mist: 0.75, glow: 0.75, alpen: 0 },
-  { h: 7.7, top: '#5a83b7', mid: '#a6bdd7', low: '#f5d6b2', haze: '#d6cdc6', near: '#25352f', far: '#99abc0', lake: '#2c4256', cloud: '#fbe6d2', sun: '#fff1d6', stars: 0, lights: 0.05, mist: 0.55, glow: 0.8, alpen: 0 },
-  { h: 9.6, top: '#6c9dcf', mid: '#b3cfe8', low: '#e5eef3', haze: '#c8d8e4', near: '#2b4036', far: '#a5bacc', lake: '#33536b', cloud: '#ffffff', sun: '#fffaf0', stars: 0, lights: 0, mist: 0.25, glow: 0.45, alpen: 0 },
-  { h: 12.6, top: '#5b95cf', mid: '#a7cae8', low: '#e0ecf3', haze: '#cbdae5', near: '#30473a', far: '#9db4c8', lake: '#30536d', cloud: '#ffffff', sun: '#ffffff', stars: 0, lights: 0, mist: 0.1, glow: 0.3, alpen: 0 },
-  { h: 16.0, top: '#6896c4', mid: '#b1c9df', low: '#eee6d6', haze: '#d5d4ca', near: '#344434', far: '#a7b2bd', lake: '#36526a', cloud: '#fff7ea', sun: '#fff1d8', stars: 0, lights: 0, mist: 0.15, glow: 0.2, alpen: 0.1 },
-  { h: 18.4, top: '#577cab', mid: '#b5b4c3', low: '#f2cf9f', haze: '#e0c09e', near: '#3a382f', far: '#b39892', lake: '#3c4a5c', cloud: '#ffd7a8', sun: '#ffcf8f', stars: 0, lights: 0.05, mist: 0.25, glow: 0.15, alpen: 0.6 },
-  { h: 19.3, top: '#313d69', mid: '#86779a', low: '#eea888', haze: '#c69798', near: '#29242e', far: '#bd8790', lake: '#2b2c40', cloud: '#f2a28e', sun: '#ff9f7a', stars: 0.05, lights: 0.35, mist: 0.35, glow: 0.1, alpen: 1 },
-  { h: 20.2, top: '#152242', mid: '#32426c', low: '#6c7298', haze: '#475375', near: '#0e1525', far: '#3d496a', lake: '#0e1628', cloud: '#5a5f86', sun: '#ffd9a8', stars: 0.3, lights: 0.8, mist: 0.3, glow: 0, alpen: 0.15 },
-  { h: 21.5, top: '#07101f', mid: '#101c32', low: '#23314c', haze: '#22304a', near: '#050a13', far: '#1e2b43', lake: '#040910', cloud: '#1a2540', sun: '#ffd9a8', stars: 0.9, lights: 1, mist: 0.2, glow: 0, alpen: 0 },
-  { h: 23.5, top: '#050b16', mid: '#0b1527', low: '#1a2740', haze: '#1a2740', near: '#04080f', far: '#18243a', lake: '#03070d', cloud: '#141e33', sun: '#ffd9a8', stars: 1, lights: 1, mist: 0.15, glow: 0, alpen: 0 },
+  { h: 4.5, top: '#060c17', mid: '#0d1729', low: '#1b2840', haze: '#1b2a40', near: '#05090f', far: '#1a283d', lake: '#03070d', cloud: '#18243a', sun: '#ffd9a8', snow: '#2a3550', stars: 1, lights: 1, mist: 0.15, glow: 0, alpen: 0 },
+  { h: 5.6, top: '#0c1530', mid: '#2c3a63', low: '#9a7f98', haze: '#4b5372', near: '#0a111c', far: '#4a5878', lake: '#0a1220', cloud: '#6c5c7c', sun: '#ffb38a', snow: '#8d8fae', stars: 0.6, lights: 0.9, mist: 0.5, glow: 0.3, alpen: 0 },
+  { h: 6.6, top: '#2b4a7c', mid: '#7f8fb5', low: '#f2c0a0', haze: '#c5a7a6', near: '#172230', far: '#7f8cab', lake: '#2a3550', cloud: '#f0b49a', sun: '#ffc690', snow: '#f6d2c8', stars: 0.08, lights: 0.4, mist: 0.7, glow: 0.8, alpen: 0.2 },
+  // Spring morning: deep blue sky, white snow on the Alps, dark forest.
+  { h: 7.7, top: '#2563ad', mid: '#5088c6', low: '#b3cce5', haze: '#b9cadb', near: '#22342a', far: '#7a93b3', lake: '#3d6488', cloud: '#f4f1ec', sun: '#fff2d8', snow: '#f2f4f8', stars: 0, lights: 0.05, mist: 0.45, glow: 0.55, alpen: 0 },
+  { h: 9.6, top: '#1f5ba6', mid: '#4c86c8', low: '#bcd3e9', haze: '#c3d3e2', near: '#26392c', far: '#8099b8', lake: '#3f688c', cloud: '#ffffff', sun: '#fffaf0', snow: '#f6f8fb', stars: 0, lights: 0, mist: 0.2, glow: 0.4, alpen: 0 },
+  { h: 12.6, top: '#1d58a4', mid: '#4e88cb', low: '#c6daed', haze: '#c9d7e4', near: '#2a3d2f', far: '#879fbc', lake: '#3e6a8f', cloud: '#ffffff', sun: '#ffffff', snow: '#f8f9fb', stars: 0, lights: 0, mist: 0.1, glow: 0.3, alpen: 0 },
+  { h: 16.0, top: '#3f72b0', mid: '#8db0d4', low: '#e6e0d4', haze: '#d3d0c8', near: '#2f3d31', far: '#8e9cb3', lake: '#486b88', cloud: '#fff5e6', sun: '#fff1d8', snow: '#f7f1ea', stars: 0, lights: 0, mist: 0.15, glow: 0.25, alpen: 0.1 },
+  // Peach dusk: lavender mountains, a silver-peach lake.
+  { h: 18.2, top: '#9fa3b8', mid: '#d2b3a8', low: '#e8c4ad', haze: '#d9bfb3', near: '#33402f', far: '#7d7a92', lake: '#b9aeb0', cloud: '#f3d2bf', sun: '#ffd6a6', snow: '#efd8d3', stars: 0, lights: 0.05, mist: 0.25, glow: 0.35, alpen: 0.5 },
+  // Sunset beside Pilatus: orange low sky under blue-grey, peach water.
+  { h: 19.2, top: '#6f87ad', mid: '#e39a6e', low: '#f5913f', haze: '#d9997f', near: '#24303f', far: '#7d86a2', lake: '#c98f7e', cloud: '#f7b26a', sun: '#ffb340', snow: '#f0c8c0', stars: 0.02, lights: 0.3, mist: 0.3, glow: 1, alpen: 1 },
+  { h: 20.2, top: '#152242', mid: '#34446e', low: '#8a6f86', haze: '#4a5577', near: '#0e1525', far: '#3f4b6c', lake: '#121a2e', cloud: '#6a5f86', sun: '#ffb38a', snow: '#6e7899', stars: 0.3, lights: 0.85, mist: 0.3, glow: 0.25, alpen: 0.15 },
+  { h: 21.5, top: '#07101f', mid: '#101c32', low: '#23314c', haze: '#22304a', near: '#050a13', far: '#1e2b43', lake: '#040910', cloud: '#1a2540', sun: '#ffd9a8', snow: '#2c3755', stars: 0.9, lights: 1, mist: 0.2, glow: 0, alpen: 0 },
+  { h: 23.5, top: '#050b16', mid: '#0b1527', low: '#1a2740', haze: '#1a2740', near: '#04080f', far: '#18243a', lake: '#03070d', cloud: '#141e33', sun: '#ffd9a8', snow: '#283250', stars: 1, lights: 1, mist: 0.15, glow: 0, alpen: 0 },
 ].map((k) => {
   const o = { ...k };
-  for (const key of ['top', 'mid', 'low', 'haze', 'near', 'far', 'lake', 'cloud', 'sun']) o[key] = hex(k[key]);
+  for (const key of ['top', 'mid', 'low', 'haze', 'near', 'far', 'lake', 'cloud', 'sun', 'snow']) o[key] = hex(k[key]);
   return o;
 });
 
@@ -98,12 +102,14 @@ const BRASS = hex('#c9ad7f');
 
 /* ------------------------------------------------------------- geometry */
 
-const view = { w: 0, h: 0, dpr: 1, k: 1, ex: 2.8, hy: 0, c0: 0, c1: 0, scale: 1 };
+const view = { w: 0, h: 0, dpr: 1, k: 1, ex: 1.5, hy: 0, c0: 0, c1: 0, scale: 1 };
 const layers = DATA.layers.map((l) => ({ ...l, th: l.th.map((v) => v / 100), path: null, top: 0 }));
-let town = [];
-let slopeLights = [];
+// How much snow each layer carries near its crest: none on the forested
+// hills, a little on Pilatus and the Stanserhorn, a lot on the high Alps.
+const SNOW = [0, 0, 0.1, 0.55, 1];
+let houses = [];
+let summitLights = [];
 let stars = [];
-let track = [];
 
 function thetaAt(layer, az) {
   const f = (az - DATA.az0) / layer.step;
@@ -113,24 +119,35 @@ function thetaAt(layer, az) {
   return lerp(layer.th[i], layer.th[i + 1], f - i);
 }
 
-// Screen position for an azimuth and elevation angle, before any pan.
+/** Distance to the far shore (m) at an azimuth. */
+function shoreAt(az) {
+  const f = clamp(az - DATA.az0, 0, DATA.shore.length - 1.001);
+  const i = Math.floor(f);
+  return lerp(DATA.shore[i], DATA.shore[Math.min(i + 1, DATA.shore.length - 1)], f - i);
+}
+
+// Screen position for an azimuth and elevation angle, before the view turns.
 const sx = (az) => view.w / 2 + (az - view.c0) * view.k;
 const sy = (th) => view.hy - th * view.k * view.ex;
-const azAt = (x) => view.c0 + (x - view.w / 2) / view.k;
 
 function layout() {
   const w = window.innerWidth;
   const h = window.innerHeight;
   const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+  const portrait = w < h;
   Object.assign(view, { w, h, dpr });
-  view.k = Math.max(w / 150, h / 110);
-  view.scale = clamp(view.k / 10, 0.7, 1.5);
-  view.hy = Math.round(h * (w < h ? 0.6 : 0.7));
-  view.ex = w < h ? 2.8 : 2.5;
+  // About 64 degrees across a wide screen, 34 on a phone held upright: the
+  // framing of a photograph from the shore. Heights are close to true: 1.6
+  // times on wide screens, a little more on narrow ones so the range reads.
+  view.k = Math.max(w / 64, Math.min(h / 48, w / 34));
+  view.scale = clamp(view.k / 18, 0.6, 1.5);
+  view.hy = Math.round(h * (portrait ? 0.6 : 0.7));
+  view.ex = portrait ? 2.2 : 1.6;
   const fov = w / view.k;
-  // Start centred on the funicular; drift south towards the Rigi as the day goes on.
-  view.c0 = clamp(117 + (fov - 50) * 0.22, 117, 140);
-  view.c1 = view.c0 + (w < h ? 20 : 10);
+  // Morning: the Zugerberg and the Rigi. Evening: Pilatus and the sunset.
+  // Wide screens see it all and turn only a little.
+  view.c0 = Math.max(184 + fov * 0.06, 168 + fov / 2);
+  view.c1 = Math.max(view.c0 + 6, 226 - fov * 0.18);
 
   for (const c of [canvas, upper]) {
     c.width = Math.round(w * dpr);
@@ -148,29 +165,27 @@ function layout() {
 }
 
 function buildLayers() {
-  const azMin = azAt(-view.w * 0.25);
-  const azMax = azAt(view.w * 1.35);
-  const step = Math.max(0.5, 1.5 / view.scale) / view.k; // about 1.5 px
+  const fov = view.w / view.k;
+  const azMin = Math.max(DATA.az0, view.c0 - fov * 0.75);
+  const azMax = Math.min(DATA.az1, view.c1 + fov * 0.75);
   const s = view.scale;
   layers.forEach((layer, i) => {
     const forest = i < 2;
     const rand = rng(17 + i);
+    // About 1.5 px apart, finer for the sharp alpine outline.
+    const step = Math.min(layer.step / 2, (i > 2 ? 1 : 1.5) / view.k);
     const p = new Path2D();
     let top = Infinity;
-    let x0 = null;
     let nextTree = 0;
-    for (let az = Math.max(azMin, DATA.az0); az <= Math.min(azMax, DATA.az1); az += step) {
+    p.moveTo(sx(azMin), view.hy + 2);
+    for (let az = azMin; az <= azMax; az += step) {
       const x = sx(az);
-      let y = sy(thetaAt(layer, az));
-      if (x0 === null) {
-        x0 = x;
-        p.moveTo(x, view.hy + 2);
-      }
+      const y = sy(thetaAt(layer, az));
       if (forest && y < view.hy - 2 && x >= nextTree) {
         // A conifer: two short strokes up to a point and back down.
-        const meadow = i === 1 && Math.sin(az * 0.9) + Math.sin(az * 2.3) > 1.2;
-        const tw = (2 + rand() * 2.5) * s;
-        const th = meadow ? 0 : (1.6 + rand() * 3.2) * s * (i === 0 ? 1 : 0.65);
+        const meadow = Math.sin(az * 0.9) + Math.sin(az * 2.3) > (i === 0 ? 1.5 : 1.1);
+        const tw = (1.8 + rand() * 2.2) * s * (i === 0 ? 1 : 0.6);
+        const th = meadow ? 0 : (1.4 + rand() * 2.8) * s * (i === 0 ? 1 : 0.55);
         p.lineTo(x, y);
         p.lineTo(x + tw / 2, y - th);
         p.lineTo(x + tw, y);
@@ -182,7 +197,7 @@ function buildLayers() {
       p.lineTo(x, y);
       top = Math.min(top, y);
     }
-    p.lineTo(sx(Math.min(azMax, DATA.az1)), view.hy + 2);
+    p.lineTo(sx(azMax), view.hy + 2);
     p.closePath();
     layer.path = p;
     layer.top = top;
@@ -192,56 +207,39 @@ function buildLayers() {
 function buildDetails() {
   const s = view.scale;
   const rand = rng(7);
+  const fov = view.w / view.k;
 
-  // The town of Zug along the shore, below the Zugerberg.
-  town = [];
-  for (let az = 50; az < 109; ) {
-    const density = 0.35 + 0.65 * Math.exp(-(((az - 72) / 14) ** 2));
-    const bw = (2.5 + rand() * 4) * s;
-    const bh = (1.5 + rand() * 4.5 * density + (rand() < 0.04 ? 5 : 0)) * s;
-    if (rand() < 0.35 + density * 0.6) {
+  // Houses along the shores, smaller with distance: Zug's lakeside and
+  // Oberwil under the Zugerberg on the left, Walchwil across the water,
+  // Cham and the western shore on the right.
+  houses = [];
+  for (let az = Math.max(DATA.az0, view.c0 - fov * 0.7); az < Math.min(DATA.az1, view.c1 + fov * 0.7); ) {
+    const d = shoreAt(az);
+    const size = clamp(900 / d, 0.12, 2.4);
+    const dense = d < 8000 ? 0.75 : 0;
+    const bw = (2 + rand() * 4) * s * size;
+    if (rand() < dense && bw > 0.6) {
+      const bh = (1.5 + rand() * 3.5) * s * size;
       const windows = [];
-      const n = Math.max(1, Math.round((bw * bh) / (9 * s * s)));
-      for (let j = 0; j < n; j += 1) {
-        if (rand() < 0.55) windows.push([rand() * bw, rand() * (bh - 1)]);
-      }
-      town.push({ x: sx(az), w: bw, h: bh, windows, roof: rand() < 0.3 });
+      const n = Math.max(1, Math.round((bw * bh) / (8 * s * s)));
+      for (let j = 0; j < n; j += 1) if (rand() < 0.6) windows.push([rand() * bw, rand() * Math.max(0.5, bh - 1)]);
+      houses.push({ az, w: bw, h: bh, d, windows, roof: rand() < 0.35 });
     }
-    az += (bw + rand() * 2.5 * s) / view.k;
+    az += (bw + rand() * 3 * s * size) / view.k;
   }
 
-  // House lights on the lower slopes, and the hamlet at the top station.
-  slopeLights = [];
-  const near = layers[0];
-  for (let i = 0; i < 90; i += 1) {
-    const az = 58 + rand() * 54;
-    const ridge = thetaAt(near, az);
-    if (ridge < 0.6) continue;
-    const t = rand() ** 1.8;
-    slopeLights.push({ x: sx(az), y: sy(0.25 + t * (ridge - 0.5)), a: 0.4 + rand() * 0.6, p: rand() * 6 });
+  // The hotels on the summits of the Rigi and Pilatus, lit at night.
+  summitLights = [];
+  for (const [key, depth] of [['rigi', 2], ['pilatus', 3]]) {
+    const [az, th] = DATA.marks[key];
+    for (let i = 0; i < 4; i += 1) summitLights.push({ depth, az: az + (rand() - 0.5) * 0.25, th: th - 0.02 - rand() * 0.05, p: rand() * 6 });
   }
-  const topSt = DATA.track[DATA.track.length - 1];
-  for (let i = 0; i < 9; i += 1) {
-    slopeLights.push({ x: sx(topSt[0] + (rand() - 0.3) * 2.2), y: sy(topSt[1] + rand() * 0.25), a: 0.8, p: rand() * 6 });
-  }
-
-  // Funicular track, in screen space.
-  track = DATA.track.map(([az, th]) => [sx(az), sy(th)]);
 
   // Stars across the upper sky.
   stars = [];
   for (let i = 0; i < 170; i += 1) {
     stars.push({ x: rand(), y: rand() ** 1.6, r: (0.35 + rand() * 0.9) * Math.min(1.3, s), p: rand() * 6.28, sp: 0.6 + rand() * 1.8 });
   }
-}
-
-function trackPoint(f) {
-  const n = track.length - 1;
-  const i = Math.min(n - 1, Math.floor(f * n));
-  const t = f * n - i;
-  const a = track[i];
-  const b = track[i + 1];
-  return [lerp(a[0], b[0], t), lerp(a[1], b[1], t), Math.atan2(b[1] - a[1], b[0] - a[0])];
 }
 
 /* --------------------------------------------------------- scroll state */
@@ -312,22 +310,34 @@ function readScroll() {
 let time = 0;
 let labelText = {};
 
+// How far the view has turned (px), and each layer's offset: the whole view
+// turns west with the day, the near hills slide a little further.
+const turn = () => story.progress * (view.c1 - view.c0) * view.k;
+const layerDx = (i) => {
+  const near = 1 - i / (layers.length - 1);
+  return -turn() - near * story.progress * view.w * 0.04 + story.pointer * near * 10;
+};
+
 function sunPosition(h) {
-  // Rises behind the Zugerberg (east-south-east) and climbs south. In the
-  // afternoon it is behind the viewer, so only its light remains.
-  const az = 104 + (h - 6) * 11.5;
-  const alt = 42 * Math.sin((Math.PI * (h - 5.8)) / 14);
-  return [sx(az), view.hy - alt * view.k * 1.25, alt];
+  // Rises behind the Zugerberg (east-south-east), arcs over the range and
+  // sets in the south-west, just right of Pilatus, as in early winter.
+  const az = 116 + (h - 6.2) * (120 / 13.2);
+  const alt = 30 * Math.sin((Math.PI * (h - 6.2)) / 13.2);
+  return [sx(az) - turn(), view.hy - alt * view.k * 0.65, alt];
 }
 
-function drawUpper(L, pan) {
+const moonT = () => smooth(20.6, 23, story.hour);
+const moonX = () => sx(158 + moonT() * 14) - turn();
+
+function drawUpper(L) {
   const c = uctx;
   const { w, hy } = view;
+  const rot = turn();
   c.setTransform(view.dpr, 0, 0, view.dpr, 0, 0);
 
   const sky = c.createLinearGradient(0, 0, 0, hy);
   sky.addColorStop(0, rgb(L.top));
-  sky.addColorStop(0.55, rgb(L.mid));
+  sky.addColorStop(0.62, rgb(L.mid));
   sky.addColorStop(1, rgb(L.low));
   c.fillStyle = sky;
   c.fillRect(0, 0, w, hy + 4);
@@ -339,51 +349,51 @@ function drawUpper(L, pan) {
       const a = L.stars * tw * (1 - st.y * 0.7);
       c.fillStyle = `rgba(235,240,255,${a})`;
       c.beginPath();
-      c.arc((((st.x * w - pan * 0.3) % w) + w) % w, st.y * hy * 0.92, st.r, 0, 6.283);
+      c.arc((((st.x * w - rot) % w) + w) % w, st.y * hy * 0.92, st.r, 0, 6.283);
       c.fill();
     }
   }
 
   // Moon, rising over the Zugerberg late in the evening.
-  const moonT = smooth(20.6, 22.8, story.hour);
-  if (moonT > 0) {
-    const mx = sx(98 + moonT * 10) - pan * 0.6;
-    const my = lerp(sy(9), hy * 0.22, moonT);
+  const mt = moonT();
+  if (mt > 0) {
+    const mx = moonX();
+    const my = lerp(sy(8), hy * 0.22, mt);
     const r = 7 * view.scale;
     const g = c.createRadialGradient(mx, my, 0, mx, my, r * 9);
-    g.addColorStop(0, `rgba(230,236,255,${0.22 * moonT})`);
+    g.addColorStop(0, `rgba(230,236,255,${0.22 * mt})`);
     g.addColorStop(1, 'rgba(230,236,255,0)');
     c.fillStyle = g;
     c.fillRect(mx - r * 9, my - r * 9, r * 18, r * 18);
-    c.fillStyle = `rgba(244,240,228,${moonT})`;
+    c.fillStyle = `rgba(244,240,228,${mt})`;
     c.beginPath();
     c.arc(mx, my, r, 0, 6.283);
     c.fill();
   }
 
-  // Sun glow and disc (drawn before the ridges, so the Zugerberg hides it).
+  // Sun glow and disc (drawn before the ridges, so the mountains hide it).
   const [sunX, sunY, alt] = sunPosition(story.hour);
-  const sx0 = sunX - pan * 0.6;
   if (L.glow > 0.01) {
-    const gr = c.createRadialGradient(sx0, Math.max(sunY, sy(6)), 0, sx0, Math.max(sunY, sy(6)), w * 0.55);
-    gr.addColorStop(0, rgb(L.sun, 0.55 * L.glow));
-    gr.addColorStop(0.35, rgb(L.sun, 0.18 * L.glow));
+    const gy = Math.max(sunY, sy(4));
+    const gr = c.createRadialGradient(sunX, gy, 0, sunX, gy, w * 0.6);
+    gr.addColorStop(0, rgb(L.sun, 0.6 * L.glow));
+    gr.addColorStop(0.3, rgb(L.sun, 0.2 * L.glow));
     gr.addColorStop(1, rgb(L.sun, 0));
     c.fillStyle = gr;
     c.fillRect(0, 0, w, hy);
   }
-  if (alt > 0 && story.hour < 14) {
+  if (alt > -1) {
     const r = 11 * view.scale;
-    c.fillStyle = rgb(L.sun, 0.95);
+    c.fillStyle = rgb(mix(L.sun, [255, 255, 255], clamp(alt / 20) * 0.6), 0.95);
     c.beginPath();
-    c.arc(sx0, sunY, r, 0, 6.283);
+    c.arc(sunX, sunY, r, 0, 6.283);
     c.fill();
   }
 
   // A few long, thin clouds.
   const drift = motionQuery.matches ? 0 : story.progress * view.w * 0.25;
   for (let i = 0; i < 4; i += 1) {
-    const cx = ((((i * 0.31 + 0.12) * w * 1.6 + drift * (1 + i * 0.3) - pan * (0.4 + i * 0.1)) % (w * 1.6)) + w * 1.6) % (w * 1.6) - w * 0.3;
+    const cx = ((((i * 0.31 + 0.12) * w * 1.6 + drift * (1 + i * 0.3) - rot * (0.7 + i * 0.1)) % (w * 1.6)) + w * 1.6) % (w * 1.6) - w * 0.3;
     const cy = hy * (0.16 + i * 0.09);
     const cw = w * (0.22 + (i % 2) * 0.12);
     const ch = 5 + i * 2;
@@ -398,25 +408,31 @@ function drawUpper(L, pan) {
     c.restore();
   }
 
-  // Ridges, far to near, with haze rising from their feet.
+  // Ridges, far to near: snow on the high crests, haze rising from the feet.
   for (let i = layers.length - 1; i >= 0; i -= 1) {
     const layer = layers[i];
     const depth = i / (layers.length - 1);
-    const dx = -pan * (1 - depth) * 1.1 + story.pointer * (1 - depth) * 10;
     let crest = mix(L.near, L.far, depth ** 0.85);
-    crest = mix(crest, ALPEN, L.alpen * (0.15 + 0.4 * depth));
+    crest = mix(crest, ALPEN, L.alpen * (0.12 + 0.35 * depth));
     const foot = mix(crest, L.haze, clamp(L.mist * (0.6 + depth * 0.4) + 0.08));
     const g = c.createLinearGradient(0, layer.top, 0, hy);
-    g.addColorStop(0, rgb(crest));
+    if (SNOW[i]) {
+      const snow = mix(mix(L.snow, crest, 0.12), ALPEN, L.alpen * 0.35);
+      g.addColorStop(0, rgb(mix(crest, snow, SNOW[i])));
+      g.addColorStop(0.18 + SNOW[i] * 0.2, rgb(mix(crest, snow, SNOW[i] * 0.55)));
+      g.addColorStop(0.3 + SNOW[i] * 0.25, rgb(crest));
+    } else g.addColorStop(0, rgb(crest));
     g.addColorStop(1, rgb(foot));
     c.save();
-    c.translate(dx, 0);
+    c.translate(layerDx(i), 0);
     c.fillStyle = g;
     c.fill(layer.path);
-    if (i === 0) drawNear(c, L, crest, foot);
-    if (i === 1) drawFunicular(c, L, crest);
+    if (i === 0) drawShore(c, L, foot);
+    if (L.lights > 0.05) drawSummitLights(c, L, i);
     c.restore();
   }
+
+  drawSteamer(c, L);
 
   // Mist lying on the water at dawn.
   if (L.mist > 0.2) {
@@ -428,91 +444,88 @@ function drawUpper(L, pan) {
   }
 }
 
-function drawNear(c, L, crest, foot) {
+function drawShore(c, L, foot) {
   const { hy } = view;
-  // Town.
-  const body = mix(foot, L.near, 0.35);
   const lit = L.lights;
-  for (const b of town) {
-    c.fillStyle = rgb(mix(body, L.haze, 0.18));
-    c.fillRect(b.x, hy - b.h, b.w, b.h + 2);
+  for (const b of houses) {
+    const x = sx(b.az);
+    const fade = clamp(b.d / 9000);
+    c.fillStyle = rgb(mix(mix(foot, L.near, 0.3), L.haze, 0.15 + fade * 0.5));
+    c.fillRect(x, hy - b.h, b.w, b.h + 2);
     if (b.roof) {
       c.beginPath();
-      c.moveTo(b.x - 0.5, hy - b.h);
-      c.lineTo(b.x + b.w / 2, hy - b.h - b.w * 0.45);
-      c.lineTo(b.x + b.w + 0.5, hy - b.h);
+      c.moveTo(x - 0.4, hy - b.h);
+      c.lineTo(x + b.w / 2, hy - b.h - b.w * 0.45);
+      c.lineTo(x + b.w + 0.4, hy - b.h);
       c.fill();
     }
     if (lit > 0.02) {
-      c.fillStyle = rgb(WARM, lit * 0.9);
-      for (const [wx, wy] of b.windows) c.fillRect(b.x + wx, hy - b.h + wy, 1, 1);
-    }
-  }
-  // House lights on the slopes.
-  if (lit > 0.02) {
-    for (const l of slopeLights) {
-      const fl = motionQuery.matches ? 1 : 0.85 + 0.15 * Math.sin(time * 1.7 + l.p);
-      c.fillStyle = rgb(WARM, lit * l.a * fl);
-      c.fillRect(l.x, l.y, 1.4, 1.4);
+      c.fillStyle = rgb(WARM, lit * (0.95 - fade * 0.4));
+      const px = b.d < 3000 ? 1 : 0.8;
+      for (const [wx, wy] of b.windows) c.fillRect(x + wx, hy - b.h + wy, px, px);
     }
   }
 }
 
-function drawFunicular(c, L, crest) {
+function drawSummitLights(c, L, i) {
+  for (const l of summitLights) {
+    if (l.depth !== i) continue;
+    const fl = motionQuery.matches ? 1 : 0.8 + 0.2 * Math.sin(time * 1.3 + l.p);
+    c.fillStyle = rgb(WARM, L.lights * fl);
+    c.fillRect(sx(l.az), sy(l.th), 1.2, 1.2);
+  }
+}
+
+// A lake steamer crossing from Zug towards Cham as the day goes on, about
+// two kilometres out: a white hull with two decks, lit after dusk.
+function drawSteamer(c, L) {
   const s = view.scale;
-  // The track runs through the forest in a clearing.
-  c.lineCap = 'round';
-  c.strokeStyle = rgb(mix(crest, L.haze, 0.35), 0.8);
-  c.lineWidth = 3.2 * s;
+  const az = lerp(193, 236, story.progress);
+  const x = sx(az) + layerDx(0) * 0.9;
+  if (x < -60 || x > view.w + 60) return;
+  const y = view.hy + 0.5;
+  const len = 34 * s;
+  const hull = mix([246, 243, 236], L.near, 0.25 + 0.6 * L.lights);
+  c.fillStyle = rgb(hull);
   c.beginPath();
-  track.forEach(([x, y], i) => (i ? c.lineTo(x, y) : c.moveTo(x, y)));
-  c.stroke();
-  c.strokeStyle = rgb(mix(crest, L.low, 0.55), 0.9);
-  c.lineWidth = 0.8 * s;
-  c.stroke();
-
-  // Two cars on one cable: as one climbs, the other descends. They pass
-  // halfway, at the passing loop.
-  const f = 0.04 + story.progress * 0.92;
-  for (const pos of [f, 1 - f]) {
-    const [x, y, ang] = trackPoint(pos);
-    const away = Math.exp(-(((pos - 0.5) / 0.06) ** 2)) * 2.2 * s * (pos === f ? 1 : -1);
-    c.save();
-    c.translate(x - Math.sin(ang) * away, y + Math.cos(ang) * away);
-    c.rotate(ang);
-    c.fillStyle = rgb(mix(BRASS, L.near, 0.25 + 0.5 * (1 - L.glow) * L.stars));
-    c.fillRect(-3.4 * s, -2.6 * s, 6.8 * s, 2.6 * s);
-    if (L.lights > 0.05) {
-      c.fillStyle = rgb(WARM, L.lights);
-      c.fillRect(-2.6 * s, -2 * s, 5.2 * s, 1.1 * s);
-    }
-    c.restore();
+  c.moveTo(x - len / 2, y - 3.2 * s);
+  c.lineTo(x + len / 2 + 2.5 * s, y - 3.2 * s);
+  c.lineTo(x + len / 2 - 1 * s, y);
+  c.lineTo(x - len / 2 + 1 * s, y);
+  c.closePath();
+  c.fill();
+  c.fillRect(x - len * 0.32, y - 5.6 * s, len * 0.62, 2.6 * s);
+  c.fillStyle = rgb(mix(hull, L.near, 0.35));
+  c.fillRect(x - len * 0.05, y - 8.2 * s, 2.2 * s, 2.8 * s);
+  if (L.lights > 0.05) {
+    c.fillStyle = rgb(WARM, L.lights);
+    for (let k = 0; k < 9; k += 1) c.fillRect(x - len * 0.28 + k * len * 0.065, y - 4.9 * s, 1.4 * s, 1.1 * s);
+    for (let k = 0; k < 12; k += 1) c.fillRect(x - len * 0.42 + k * len * 0.07, y - 2.3 * s, 1.2 * s, 1 * s);
   }
 }
 
-function drawLabels(c, pan) {
+function drawLabels(c) {
   const a = story.labels;
   if (a < 0.01) return;
   const s = view.scale;
-  const nearDx = -pan * 1.1;
   const items = [
-    ['zug', DATA.marks.zug, nearDx, 0.4],
-    ['zugerberg', DATA.marks.crest, -pan * 0.85, 0],
-    ['funicular', DATA.track[12], -pan * 0.85, 0.15],
-    ['rigi', DATA.marks.rigi, -pan * 0.55, 0.3],
-    ['pilatus', DATA.marks.pilatus, -pan * 0.3, 0.45],
+    ['zugerberg', DATA.marks.zugerberg, 0, 0],
+    ['rigi', DATA.marks.rigi, 2, 0.15],
+    ['alps', DATA.marks.alps, 4, 0.3],
+    ['pilatus', DATA.marks.pilatus, 3, 0.45],
   ];
   c.font = `600 ${Math.round(10.5 * Math.max(1, s * 0.9))}px Inter, system-ui, sans-serif`;
   c.textAlign = 'center';
-  for (const [key, [az, th], dx, delay] of items) {
+  for (const [key, [az, th], layer, delay] of items) {
     const text = labelText[key];
     if (!text) continue;
-    const x = sx(az) + dx;
+    const x = sx(az) + layerDx(layer);
     const y = sy(th);
-    if (x < 30 || x > view.w - 30) continue;
+    const half = c.measureText(text.toUpperCase()).width / 2 + 8;
+    if (x < half || x > view.w - half) continue;
     const t = clamp((a - delay * 0.5) / 0.5);
     if (t <= 0) continue;
-    const len = 26 * s * t;
+    const len = (layer === 4 ? 44 : 26) * s * t;
     c.strokeStyle = `rgba(246,243,238,${0.75 * t})`;
     c.lineWidth = 1;
     c.beginPath();
@@ -541,19 +554,18 @@ let upperAt = -1;
 
 function draw(full) {
   const L = lightAt(story.hour);
-  const pan = (story.progress * (view.c1 - view.c0)) * view.k;
   const { w, h, hy, dpr } = view;
   const c = ctx;
   // The sky and ridges move only with scroll and pointer. The canvas keeps
   // its pixels, so between those only the water is redrawn.
   if (full || upperAt < 0) {
-    drawUpper(L, pan);
+    drawUpper(L);
     mctx.drawImage(upper, 0, 0, upper.width, Math.ceil(hy * dpr), 0, 0, mirror.width, mirror.height);
     upperAt = time;
     c.setTransform(1, 0, 0, 1, 0, 0);
     c.drawImage(upper, 0, 0, upper.width, Math.ceil(hy * dpr), 0, 0, upper.width, Math.ceil(hy * dpr));
     c.setTransform(dpr, 0, 0, dpr, 0, 0);
-    drawLabels(c, pan);
+    drawLabels(c);
   }
   c.setTransform(dpr, 0, 0, dpr, 0, 0);
 
@@ -570,39 +582,41 @@ function draw(full) {
     lctx.drawImage(mirror, 0, Math.floor(src), mirror.width, 1, (amp - 12) * LAKE_Q, r, lw + 24 * LAKE_Q, 1);
   }
   const water = lctx.createLinearGradient(0, 0, 0, lh);
-  water.addColorStop(0, rgb(mix(L.low, L.haze, 0.5), 0.38));
-  water.addColorStop(1, rgb(L.lake, 0.85));
+  water.addColorStop(0, rgb(mix(L.low, L.haze, 0.5), 0.32));
+  water.addColorStop(1, rgb(L.lake, 0.82));
   lctx.fillStyle = water;
   lctx.fillRect(0, 0, lw, lh);
   c.drawImage(lake, 0, hy, w, lakeH);
 
-  // Glitter beneath the sun or moon.
+  // A path of light on the water beneath a low sun, or the moon.
   const [sunX, , alt] = sunPosition(story.hour);
-  const glitter = alt > 2 && story.hour < 14 ? [sunX - pan * 0.6, L.sun, 0.5 * clamp(alt / 15)] : story.hour > 21 ? [sx(98 + smooth(20.6, 22.8, story.hour) * 10) - pan * 0.6, [235, 238, 250], 0.35 * smooth(20.8, 22, story.hour)] : null;
+  const glitter = alt > -0.5 && alt < 24 ? [sunX, mix(L.sun, [255, 255, 255], 0.2), 0.6 * (1 - clamp(alt / 24)) * clamp((alt + 0.5) / 3)]
+    : story.hour > 21 ? [moonX(), [235, 238, 250], 0.35 * smooth(20.8, 22, story.hour)] : null;
   if (glitter) {
     const [gx, col, ga] = glitter;
     const rand = rng(Math.floor(time * (still ? 0 : 6)));
-    for (let i = 0; i < 46; i += 1) {
+    for (let i = 0; i < 60; i += 1) {
       const d = rand() ** 1.4;
-      const y = hy + 3 + d * lakeH * 0.9;
-      const spread = (6 + d * 60) * view.scale;
+      const y = hy + 2 + d * lakeH * 0.92;
+      const spread = (5 + d * 70) * view.scale;
       const x = gx + (rand() - 0.5) * spread * 2;
-      c.fillStyle = rgb(col, ga * (1 - d) * rand());
-      c.fillRect(x, y, (3 + rand() * 10 * d) * view.scale, 1);
+      c.fillStyle = rgb(col, ga * (1 - d * 0.7) * rand());
+      c.fillRect(x, y, (3 + rand() * 12 * d) * view.scale, 1);
     }
   }
 
-  // Town lights stretched across the water at night.
+  // Shore lights stretched across the water at night.
   if (L.lights > 0.05) {
     const rand = rng(3);
-    for (const b of town) {
-      if (rand() > 0.3) continue;
-      const len = (10 + rand() * 30) * view.scale;
+    const dx = layerDx(0);
+    for (const b of houses) {
+      if (rand() > 0.25 || b.d > 7000) continue;
+      const len = (8 + rand() * 30) * view.scale * clamp(2000 / b.d, 0.4, 1.4);
       const g = c.createLinearGradient(0, hy, 0, hy + len);
       g.addColorStop(0, rgb(WARM, 0.35 * L.lights));
       g.addColorStop(1, rgb(WARM, 0));
       c.fillStyle = g;
-      c.fillRect(b.x - pan * 1.1 + b.w / 2, hy + 1, 1.2, len);
+      c.fillRect(sx(b.az) + dx + b.w / 2, hy + 1, 1.2, len);
     }
   }
 
@@ -614,7 +628,8 @@ function draw(full) {
 
 const hud = document.querySelector('[data-hud]');
 const hudTime = hud && hud.querySelector('[data-hud-time]');
-const hudAlt = hud && hud.querySelector('[data-hud-alt]');
+const hudDir = hud && hud.querySelector('[data-hud-dir]');
+const POINTS = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
 let lastHud = '';
 
 function updateHud() {
@@ -622,12 +637,13 @@ function updateHud() {
   const h = story.hour % 24;
   const mm = Math.floor((h % 1) * 60);
   const t = `${String(Math.floor(h)).padStart(2, '0')}:${String(mm).padStart(2, '0')}`;
-  // Valley station 561 m, top station 927 m (366 m of rise).
-  const alt = `${Math.round(561 + (0.04 + story.progress * 0.92) * 366)} m`;
-  if (t + alt === lastHud) return;
-  lastHud = t + alt;
+  // The compass bearing of the middle of the view.
+  const b = Math.round(lerp(view.c0, view.c1, story.progress));
+  const dir = `${b}° ${POINTS[Math.round(b / 22.5) % 16]}`;
+  if (t + dir === lastHud) return;
+  lastHud = t + dir;
   hudTime.textContent = t;
-  hudAlt.textContent = alt;
+  hudDir.textContent = dir;
 }
 
 /* ---------------------------------------------------------------- loop */

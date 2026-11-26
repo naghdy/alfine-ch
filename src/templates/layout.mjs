@@ -114,7 +114,7 @@ export function layout(ctx, { body, bodyClass = '', indexable = true }) {
 ${body}
     </main>
     ${footer(ctx)}
-    <p class="hud" aria-hidden="true" data-hud><span class="hud__label">${esc(t.ui.hudLabel)}</span> <span data-hud-alt>561 m</span> <span class="hud__sep"></span> <span data-hud-time>05:18</span></p>
+    <p class="hud" aria-hidden="true" data-hud><span class="hud__label">${esc(t.ui.hudLabel)}</span> <span data-hud-dir>206° SSW</span> <span class="hud__sep"></span> <span data-hud-time>05:18</span></p>
   </body>
 </html>
 `;

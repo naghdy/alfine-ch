@@ -34,8 +34,8 @@ export default {
     rights: 'All rights reserved.',
     backToTop: 'Back to top',
     legalOpen: 'Read',
-    // Shown beside the scene: the funicular's height and the hour of the scene.
-    hudLabel: 'Zugerbergbahn',
+    // Shown beside the scene: the compass bearing of the view and its hour.
+    hudLabel: 'Looking',
   },
 
   nav: [
@@ -160,12 +160,11 @@ export default {
       { label: 'Country', value: 'Switzerland' },
     ],
     // Names written onto the landscape as you scroll through this section.
-    labelsIntro: 'In the view from the lake:',
+    labelsIntro: 'In the view south across the lake:',
     labels: {
-      zug: 'Zug',
       zugerberg: 'Zugerberg',
-      funicular: 'Zugerbergbahn',
       rigi: 'Rigi',
+      alps: 'Eiger, Mönch, Jungfrau',
       pilatus: 'Pilatus',
       lake: 'Lake Zug',
     },

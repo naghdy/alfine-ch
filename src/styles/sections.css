@@ -760,12 +760,16 @@ html:not(.scene-on) .place__stage {
 }
 
 .scene-on .place__text::before {
-  inset: -14% calc(100% - 40rem) -18% -18%;
-  background: radial-gradient(closest-side, rgb(14 16 36 / 0.5), rgb(14 16 36 / 0.28) 55%, rgb(14 16 36 / 0));
+  inset: -28% calc(100% - 42rem) -34% -20%;
+  background: radial-gradient(closest-side, rgb(30 20 32 / 0.7), rgb(30 20 32 / 0.6) 50%, rgb(30 20 32 / 0.28) 78%, rgb(30 20 32 / 0));
 }
 
 .scene-on .interlude__text::before {
-  inset: -30% -14%;
+  inset: -50% -20%;
+  background: radial-gradient(closest-side, rgb(12 28 60 / 0.34), rgb(12 28 60 / 0.22) 55%, rgb(12 28 60 / 0));
+}
+
+.scene-on [data-ink='dark'] .interlude__text::before {
   background: radial-gradient(closest-side, rgb(238 242 246 / 0.62), rgb(238 242 246 / 0.34) 55%, rgb(238 242 246 / 0));
 }
 
@@ -775,19 +779,22 @@ html:not(.scene-on) .place__stage {
 }
 
 @media (max-width: 40em) {
-  .scene-on .hero__inner::before,
-  .scene-on .place__text::before {
+  .scene-on .hero__inner::before {
     inset: -6% -30% -10%;
   }
 
-  /* On a phone the Zugerberg fills more of the screen: sit higher, with
-     more haze. */
+  .scene-on .place__text::before {
+    inset: -20% -40% -28%;
+  }
+
+  /* On a phone the mountains fill more of the screen: sit higher, with a
+     deeper wash. */
   .interlude__text,
   .scene-on .interlude__text {
     top: 12vh;
   }
 
   .scene-on .interlude__text::before {
-    background: radial-gradient(closest-side, rgb(238 242 246 / 0.72), rgb(238 242 246 / 0.42) 55%, rgb(238 242 246 / 0));
+    background: radial-gradient(closest-side, rgb(12 28 60 / 0.42), rgb(12 28 60 / 0.28) 55%, rgb(12 28 60 / 0));
   }
 }

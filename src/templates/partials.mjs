@@ -45,7 +45,7 @@ export function rich(text, ctx) {
   return esc(text).replace(/\{email\}/g, emailLink(ctx.site.email));
 }
 
-/** The Zugerberg's own outline, used as the top edge of each content sheet. */
+/** The outline of the range, from the Rigi to Pilatus: the top edge of each content sheet. */
 export function ridgeEdge(flip = false) {
   return `<svg class="sheet__edge${flip ? ' sheet__edge--flip' : ''}" viewBox="0 0 1000 64" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="${edgePath}"/></svg>`;
 }
