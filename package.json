@@ -1,0 +1,17 @@
+{
+  "name": "alfine-ch",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static marketing website for Alfine, Zug (alfine.ch).",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "node tools/build.mjs",
+    "serve": "node tools/serve.mjs",
+    "start": "node tools/build.mjs && node tools/serve.mjs",
+    "check": "node tools/check-links.mjs",
+    "validate": "npx --yes html-validate@9 \"_site/**/*.html\"",
+    "images": "node tools/render-images.mjs"
+  }
+}

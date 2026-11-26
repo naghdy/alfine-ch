@@ -1,0 +1,17 @@
+# Build output
+_site/
+
+# Dependencies (the build itself needs none)
+node_modules/
+
+# Local environment (copy .env.example to .env)
+.env
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+*.log
+.vscode/
+.idea/
+tools/terrain/.tiles/
+__pycache__/
