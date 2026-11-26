@@ -32,6 +32,9 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  /* Never a sideways scroll. On the body this applies to the viewport, so
+     the sticky elements keep working. */
+  overflow-x: hidden;
 }
 
 body.is-menu-open {
