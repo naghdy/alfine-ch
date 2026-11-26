@@ -13,3 +13,5 @@ Thumbs.db
 *.log
 .vscode/
 .idea/
+tools/terrain/.tiles/
+__pycache__/
