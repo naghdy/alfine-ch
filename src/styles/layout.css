@@ -254,8 +254,8 @@ main,
   .masthead__nav ul a {
     font-family: var(--font-serif);
     font-size: clamp(2rem, 1.4rem + 3vw, 3rem);
-    font-weight: 330;
-    letter-spacing: -0.015em;
+    font-weight: 400;
+    letter-spacing: -0.005em;
   }
 
   .masthead.is-menu-open {
@@ -363,10 +363,9 @@ main,
 
 .title {
   font-size: var(--text-title);
-  font-weight: 320;
-  letter-spacing: -0.025em;
-  line-height: 1.02;
-  font-variation-settings: 'opsz' 144;
+  font-weight: 400;
+  letter-spacing: -0.012em;
+  line-height: 1.04;
 }
 
 .intro {

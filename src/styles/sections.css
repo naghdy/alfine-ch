@@ -30,9 +30,9 @@
 .hero__title {
   max-width: 20ch;
   font-size: var(--text-hero);
-  font-weight: 340;
-  letter-spacing: -0.02em;
-  line-height: 1.08;
+  font-weight: 400;
+  letter-spacing: -0.005em;
+  line-height: 1.1;
 }
 
 .hero__lead {
@@ -111,12 +111,11 @@
   margin: 0 auto;
   font-family: var(--font-serif);
   font-size: var(--text-statement);
-  font-weight: 320;
-  line-height: 1.08;
-  letter-spacing: -0.022em;
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
   text-align: center;
   text-wrap: balance;
-  font-variation-settings: 'opsz' 144;
 }
 
 /* ---------------------------------------------------------------- about */
@@ -196,16 +195,16 @@
 
 .focus {
   position: relative;
+  min-width: 0;
 }
 
 .focus__num {
   display: block;
   font-family: var(--font-serif);
   font-size: clamp(3.5rem, 2.5rem + 4vw, 7rem);
-  font-weight: 280;
+  font-weight: 400;
   line-height: 1;
   color: var(--brass-700);
-  font-variation-settings: 'opsz' 144;
 }
 
 .focus__icon {
@@ -240,6 +239,9 @@
 .focus__title {
   font-size: var(--text-2xl);
   margin-bottom: var(--space-4);
+  /* Long German compounds ("Immobilienentwicklung") must fit a 320px screen. */
+  hyphens: auto;
+  overflow-wrap: break-word;
 }
 
 .focus p {
@@ -470,8 +472,8 @@ html:not(.scene-on) .place__stage {
   margin-top: var(--space-6);
   font-family: var(--font-serif);
   font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.4rem);
-  font-weight: 340;
-  letter-spacing: -0.01em;
+  font-weight: 400;
+  letter-spacing: 0;
 }
 
 .contact-email a {

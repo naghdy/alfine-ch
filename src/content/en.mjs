@@ -239,7 +239,7 @@ export default {
           heading: 'Copyright',
           body: [
             'All content on this website, including text, design and graphics, belongs to [LEGAL ENTITY NAME] unless stated otherwise. Any reproduction requires our prior written consent.',
-            'The typefaces Fraunces and Inter are used under the SIL Open Font License.',
+            'The typefaces Marcellus and Jost are used under the SIL Open Font License.',
             'The landscape is drawn from open elevation data: Terrain Tiles by Mapzen, distributed through the AWS Open Data programme. EU-DEM layers produced using Copernicus data and information funded by the European Union.',
           ],
         },

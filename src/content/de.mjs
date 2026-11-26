@@ -239,7 +239,7 @@ export default {
           heading: 'Urheberrecht',
           body: [
             'Sämtliche Inhalte dieser Website, einschliesslich Texte, Gestaltung und Grafiken, gehören der [LEGAL ENTITY NAME], sofern nicht anders angegeben. Jede Vervielfältigung bedarf unserer vorgängigen schriftlichen Zustimmung.',
-            'Die Schriften Fraunces und Inter werden unter der SIL Open Font License verwendet.',
+            'Die Schriften Marcellus und Jost werden unter der SIL Open Font License verwendet.',
             'Die Landschaft beruht auf offenen Höhendaten: Terrain Tiles von Mapzen, bereitgestellt über das AWS Open Data Programm. EU-DEM layers produced using Copernicus data and information funded by the European Union.',
           ],
         },

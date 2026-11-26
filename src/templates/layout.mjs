@@ -97,8 +97,8 @@ export function layout(ctx, { body, bodyClass = '', indexable = true }) {
     ${seo}
     <meta name="theme-color" content="${site.themeColor}">
     <meta name="color-scheme" content="light">
-    <link rel="preload" href="/assets/fonts/fraunces-latin-var.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="/assets/fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/marcellus-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/jost-latin-var.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="${assets.css}">
     <link rel="icon" href="/favicon.ico" sizes="32x32">
     <link rel="icon" href="/assets/icons/icon.svg" type="image/svg+xml">

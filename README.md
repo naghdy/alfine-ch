@@ -95,7 +95,7 @@ Formspree's free plan has a monthly submission limit; check the current plans be
 
 ## Security and privacy
 
-- **No cookies, analytics, trackers, embeds or third-party requests.** Fonts (Fraunces and Inter, SIL Open Font License) are self-hosted. No cookie banner is needed.
+- **No cookies, analytics, trackers, embeds or third-party requests.** Fonts (Marcellus and Jost, SIL Open Font License) are self-hosted. No cookie banner is needed.
 - **Content-Security-Policy** is set with a `<meta http-equiv>` tag on every page, because GitHub Pages cannot send custom response headers. There are no inline scripts or styles, so the policy needs no `'unsafe-inline'`:
   `default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; manifest-src 'self'; connect-src https://formspree.io; form-action https://formspree.io; base-uri 'none'; upgrade-insecure-requests`
   (JSON-LD is a non-executable data block and is not affected by `script-src`.)
@@ -122,7 +122,7 @@ Run `npm run build`: when it no longer lists placeholders, the content is comple
 
 ## Changing the artwork
 
-The skyline (`src/data/skyline.json`) and the contour map (`src/svg/contours.svg`) are generated from elevation data by the scripts in `tools/terrain/`; both outputs are committed, so the build never needs Python or the network. The wordmark and mark are SVG files in `src/svg/`. The PNG icons, `favicon.ico` and the Open Graph image (drawn from the same skyline) are generated and committed. After changing `src/assets/icons/icon.svg`, the wordmark or the skyline, regenerate them:
+The skyline (`src/data/skyline.json`) and the contour map (`src/svg/contours.svg`) are generated from elevation data by the scripts in `tools/terrain/`; both outputs are committed, so the build never needs Python or the network. The mark is an SVG file in `src/svg/`. The wordmark (`src/svg/wordmark.svg`) is "Alfine" set in the self-hosted Marcellus font and converted to outlines by `python3 tools/wordmark.py` (needs `pip install fonttools brotli`). The PNG icons, `favicon.ico` and the Open Graph image (drawn from the same skyline) are generated and committed. After changing `src/assets/icons/icon.svg`, the wordmark or the skyline, regenerate them:
 
 ```sh
 npm install --no-save puppeteer

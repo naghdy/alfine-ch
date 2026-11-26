@@ -514,7 +514,7 @@ function drawLabels(c) {
     ['alps', DATA.marks.alps, 4, 0.3],
     ['pilatus', DATA.marks.pilatus, 3, 0.45],
   ];
-  c.font = `600 ${Math.round(10.5 * Math.max(1, s * 0.9))}px Inter, system-ui, sans-serif`;
+  c.font = `600 ${Math.round(10.5 * Math.max(1, s * 0.9))}px Jost, system-ui, sans-serif`;
   c.textAlign = 'center';
   for (const [key, [az, th], layer, delay] of items) {
     const text = labelText[key];
@@ -544,7 +544,7 @@ function drawLabels(c) {
 function drawLakeLabel(c) {
   const a = story.labels;
   if (a < 0.01 || !labelText.lake) return;
-  c.font = `600 ${Math.round(10.5 * Math.max(1, view.scale * 0.9))}px Inter, system-ui, sans-serif`;
+  c.font = `600 ${Math.round(10.5 * Math.max(1, view.scale * 0.9))}px Jost, system-ui, sans-serif`;
   c.textAlign = 'center';
   c.fillStyle = `rgba(246,243,238,${0.8 * clamp(a / 0.6)})`;
   c.fillText(labelText.lake.toUpperCase().split('').join(String.fromCharCode(8202)), view.w * 0.5, view.hy + (view.h - view.hy) * 0.42);

@@ -12,8 +12,8 @@
 - **Legibility:** text set directly on the scene has a soft wash behind it (dusk behind light text, morning haze behind dark), so it stays readable at any hour without boxing it in. Contrast was measured against the actual rendered scene behind each line, not only against the page colour.
 - **No library:** the X thread of animation tools was a useful benchmark for ambition, but each of those tools solves a different problem (video rendering, 3D, component animation). What this page needs is one bespoke illustration that responds to scroll, which a few hundred lines of Canvas 2D do with no dependency, no WebGL, and a script of 17 KB gzipped for everything on the page.
 - **Palette** (CSS variables in `src/styles/tokens.css`): night navy, warm paper `#f4f0e8`, mist blue-greys and muted brass as the only accent. The scene's colours are keyframes by hour in `scene.js`.
-- **Typography:** Fraunces (variable, optical sizing) for headings at a light weight, Inter for body text, both self-hosted (Latin subset). Metric-adjusted fallbacks avoid layout shift.
-- **Wordmark:** "Alfine" set in Fraunces and converted to outlines, paired with a small line mark of two peaks over a lake.
+- **Typography:** Marcellus, a roman face drawn from carved inscription capitals, for headings and the wordmark, with Jost, a geometric sans, for body text, both self-hosted (Latin subset). Metric-adjusted fallbacks avoid layout shift.
+- **Wordmark:** "Alfine" set in Marcellus and converted to outlines, paired with a small line mark of two peaks over a lake.
 - **Without JavaScript:** a still SVG drawing of the same skyline at dusk stands in for the scene, and every section, the menu links, the legal texts and the form still work.
 
 ## Technical
